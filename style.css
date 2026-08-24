@@ -152,7 +152,7 @@ button { font-family: inherit; cursor: pointer; }
 
 .hero-bg {
     position: absolute; inset: 0;
-    background-image: url('images/474686653_601663159122878_315167343641763235_n.jpg');
+    background-image: url('474686653_601663159122878_315167343641763235_n.jpg');
     background-size: cover; background-position: center top;
     transform: scale(1.08);
     animation: hero-zoom 14s ease forwards;
