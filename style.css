@@ -232,29 +232,6 @@ button { font-family: inherit; cursor: pointer; }
 
 @keyframes fade-up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ════════════════════ MARQUEE ════════════════════ */
-.marquee-strip {
-    background: var(--blue-dark);
-    padding: 14px 0;
-    overflow: hidden;
-    white-space: nowrap;
-    border-top: 3px solid var(--orange);
-    border-bottom: 3px solid var(--orange);
-}
-.marquee-track {
-    display: inline-flex;
-    gap: 32px;
-    animation: marquee-scroll 20s linear infinite;
-    will-change: transform;
-}
-.marquee-track span {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.78rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-    color: white;
-}
-.marquee-dot { color: var(--orange) !important; }
-@keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
 /* ════════════════════ ABOUT ════════════════════ */
 .about { padding: 120px 0; background: white; }
 
@@ -739,3 +716,30 @@ footer { background: var(--blue-deeper); }
 /* Ομοιόμορφα εικονίδια ενοτήτων */
 .service-icon svg { width: 30px; height: 30px; stroke: var(--blue); }
 .pricing-icon svg { width: 40px; height: 40px; stroke: var(--blue); margin: 0 auto 4px; }
+
+/* ════════════ Κάρτες υπηρεσιών (ενοποιημένη ενότητα) ════════════ */
+.service-img-wrap { display: block; }
+.service-list { list-style: none; margin: 14px 0 18px; display: flex; flex-direction: column; gap: 7px; }
+.service-list li { position: relative; padding-left: 20px; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+.service-list li::before {
+    content: ''; position: absolute; left: 2px; top: 8px;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--blue); opacity: .5;
+}
+.service-actions { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+.service-cta {
+    display: block; text-align: center; padding: 12px;
+    border: 1.5px solid rgba(43,127,212,0.25); border-radius: var(--radius-sm);
+    color: var(--blue); font-weight: 700; font-size: 0.9rem;
+    transition: background 0.2s, border-color 0.2s;
+}
+.service-cta:hover { background: rgba(43,127,212,0.07); }
+.service-cta-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+.service-cta-primary:hover { background: var(--blue-dark, #1f66ac); color: #fff; }
+.service-body { display: flex; flex-direction: column; flex: 1; }
+
+/* Ισοϋψείς κάρτες: τα κουμπιά ευθυγραμμίζονται στο κάτω μέρος */
+.services-grid { align-items: stretch; }
+.service-card  { display: flex; flex-direction: column; height: 100%; }
+.service-body  { flex: 1; display: flex; flex-direction: column; }
+.service-list  { flex: 0 0 auto; }
+.service-actions { margin-top: auto; }
