@@ -80,7 +80,7 @@ function closeModal() {
 }
 
 document.querySelectorAll('.btn-book-app').forEach(el => {
-    el.addEventListener('click', () => { window.open('https://admirable-rugelach-6a28b3.netlify.app/app.html?club=orion-padel', '_blank'); });
+    el.addEventListener('click', () => { window.open('https://court-book.gr/app.html?club=orion-padel-club', '_blank'); });
 });
 
 modalClose.addEventListener('click', closeModal);
