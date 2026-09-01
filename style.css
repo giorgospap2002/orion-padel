@@ -759,4 +759,23 @@ footer { background: var(--blue-deeper); }
 #navbar .nav-links.open li a { color: var(--text); }
 #navbar .nav-links.open li a:hover { color: var(--blue); background: transparent; }
 /* Όσο είναι ανοιχτό το μενού, η μπάρα μένει διάφανη πάνω από το λευκό */
-body.menu-open #navbar { background: transparent; box-shadow: none; border-color: transparent; }
+/* ΚΡΙΣΙΜΟ: το backdrop-filter κάνει το #navbar «σημείο αναφοράς» για τα
+   position:fixed παιδιά του. Με ανοιχτό μενού πρέπει να φύγει, αλλιώς το
+   fullscreen μενού συρρικνώνεται στο ύψος της μπάρας (~60px). */
+body.menu-open #navbar {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+
+
+
+/* Στην κορυφή της σελίδας οι γραμμές του μενού είναι λευκές — πάνω στο
+   λευκό φόντο του ανοιχτού μενού γίνονταν αόρατες. */
+@media (max-width: 768px) {
+    body.menu-open .hamburger span { background: var(--text); }
+    body.menu-open .hamburger { position: relative; z-index: 1300; }
+}
