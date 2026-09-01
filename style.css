@@ -28,7 +28,7 @@
 
 /* ── Reset ── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 img { display: block; max-width: 100%; }
 a { text-decoration: none; }
@@ -148,7 +148,7 @@ button { font-family: inherit; cursor: pointer; }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ════════════════════ HERO ════════════════════ */
-.hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 
 .hero-bg {
     position: absolute; inset: 0;
@@ -743,3 +743,14 @@ footer { background: var(--blue-deeper); }
 .service-body  { flex: 1; display: flex; flex-direction: column; }
 .service-list  { flex: 0 0 auto; }
 .service-actions { margin-top: auto; }
+
+/* ════════════ Κινητό: σταθερότητα κύλισης ════════════ */
+@media (max-width: 768px) {
+    /* Λιγότερη μετακίνηση στα animations — σε αργό κινητό «κολλάει» */
+    .reveal { transform: translateY(18px); transition-duration: 0.45s; }
+    /* Το ύψος της αεροφωτογραφίας κόβεται σε μικρές οθόνες */
+    .aerial { height: 340px; }
+}
+
+/* Δικλείδα: αν το JavaScript δεν τρέξει, το περιεχόμενο ΔΕΝ μένει αόρατο */
+.no-js .reveal { opacity: 1 !important; transform: none !important; }

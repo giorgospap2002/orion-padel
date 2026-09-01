@@ -9,12 +9,24 @@ const revealObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.12 });
 
+const isMobile = window.matchMedia('(max-width: 768px)').matches;
 document.querySelectorAll('.reveal').forEach(el => {
     const siblings = el.parentElement.querySelectorAll('.reveal');
     const idx = Array.from(siblings).indexOf(el);
-    if (idx > 0) el.style.transitionDelay = `${idx * 120}ms`;
+    // Σε κινητό η σκάλα καθυστέρησης έφτανε το ~1 δευτ. και φαινόταν σαν κόλλημα
+    const step = isMobile ? 50 : 120;
+    if (idx > 0) el.style.transitionDelay = `${Math.min(idx * step, 300)}ms`;
     revealObserver.observe(el);
 });
+
+// Δικλείδα: αν κάτι πάει στραβά με τον observer, εμφάνισε τα πάντα
+// αντί να μείνει η σελίδα κενή.
+setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 1.5) el.classList.add('visible');
+    });
+}, 1200);
 
 // ── Counter Animation ──
 function animateCounter(el, target, duration = 1800) {
@@ -79,12 +91,8 @@ function closeModal() {
     document.body.style.overflow = '';
 }
 
-document.querySelectorAll('.btn-book-app').forEach(el => {
-    el.addEventListener('click', () => { window.open('https://court-book.gr/app.html?club=orion-padel-club', '_blank'); });
-});
-
-modalClose.addEventListener('click', closeModal);
-modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+if (modalClose) modalClose.addEventListener('click', closeModal);
+if (modal) modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // ── Hero Particles (orange, matching brand) ──
