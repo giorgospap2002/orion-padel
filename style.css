@@ -754,3 +754,9 @@ footer { background: var(--blue-deeper); }
 
 /* Δικλείδα: αν το JavaScript δεν τρέξει, το περιεχόμενο ΔΕΝ μένει αόρατο */
 .no-js .reveal { opacity: 1 !important; transform: none !important; }
+
+/* Το μενού κινητού κερδίζει τον κανόνα #navbar.scrolled (που έχει ID) */
+#navbar .nav-links.open li a { color: var(--text); }
+#navbar .nav-links.open li a:hover { color: var(--blue); background: transparent; }
+/* Όσο είναι ανοιχτό το μενού, η μπάρα μένει διάφανη πάνω από το λευκό */
+body.menu-open #navbar { background: transparent; box-shadow: none; border-color: transparent; }

@@ -57,24 +57,53 @@ document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe
 // ── Navbar Scroll ──
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
+    // Με ανοιχτό μενού το body είναι «καρφωμένο» και το scrollY μηδενίζεται —
+    // χωρίς αυτόν τον έλεγχο η μπάρα άλλαζε χρώματα από μόνη της.
+    if (document.body.classList.contains('menu-open')) return;
     navbar.classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
+
+// ── Κλείδωμα κύλισης (δουλεύει και σε iPhone) ──
+// Το overflow:hidden στο body ΔΕΝ σταματάει την κύλιση στο iOS Safari.
+// Ο μόνος αξιόπιστος τρόπος είναι να «καρφώσεις» το body και να θυμάσαι
+// πού ήταν ο χρήστης.
+let _lockedY = 0;
+function lockScroll() {
+    _lockedY = window.scrollY;
+    document.body.classList.add('menu-open');
+    document.body.style.position = 'fixed';
+    document.body.style.top   = `-${_lockedY}px`;
+    document.body.style.left   = '0';
+    document.body.style.right  = '0';
+}
+function unlockScroll() {
+    document.body.classList.remove('menu-open');
+    document.body.style.position = '';
+    document.body.style.top   = '';
+    document.body.style.left  = '';
+    document.body.style.right = '';
+    window.scrollTo(0, _lockedY);
+}
 
 // ── Hamburger Menu ──
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.getElementById('navLinks');
 
+function closeMenu() {
+    navLinks.classList.remove('open');
+    hamburger.classList.remove('open');
+    unlockScroll();
+}
+
 hamburger.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('open');
     hamburger.classList.toggle('open', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    isOpen ? lockScroll() : unlockScroll();
 });
 
 navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        hamburger.classList.remove('open');
-        document.body.style.overflow = '';
+        closeMenu();
     });
 });
 
@@ -175,3 +204,12 @@ document.querySelectorAll('.gallery-item').forEach(item => {
     }`;
     document.head.appendChild(s);
 })();
+
+// Το μενού κλείνει σε Escape και όταν γυρίσει η οθόνη — αλλιώς έμενε
+// «κολλημένο» πάνω από τη σελίδα σε οριζόντια προβολή.
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navLinks.classList.contains('open')) closeMenu();
+});
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && navLinks.classList.contains('open')) closeMenu();
+});
